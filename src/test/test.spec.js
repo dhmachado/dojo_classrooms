@@ -5,8 +5,11 @@ import NoClassroom from '../main/classrooms/NoClassroom';
 
 import Persons from '../main/classrooms/specs/Persons';
 import Computers from '../main/classrooms/specs/Computers';
+import Blackboard from '../main/classrooms/specs/Blackboard';
+import NoComputers from '../main/classrooms/specs/NoComputers';
 import SquareMeters from '../main/classrooms/specs/SquareMeters';
 
+import Or from '../main/conditions/Or';
 import And from '../main/conditions/And';
 import CountsWith from '../main/conditions/CountsWith';
 import CapacityOfAtLeast from '../main/conditions/CapacityOfAtLeast';
@@ -32,8 +35,10 @@ describe('Search for classroom', () => {
     );
     labB = new Classroom(
       new Label('Lab B'), 
-      new Persons(15),
-      new SquareMeters(15)
+      new Persons(20),
+      new SquareMeters(20),
+      new NoComputers(),
+      new Blackboard()
     );
     labC = new Classroom(
       new Label("Lab C"),
@@ -116,6 +121,23 @@ describe('Search for classroom', () => {
     );
 
     expect(classroom.toJSON()).to.be.equal(labD.toJSON());
+  });
+
+  it('for at least 20 persons and 20 square meters and has computers or a blackboard should return lab B', () => {
+    let classroom = pool.searchClassroomFor(
+      new RequestForClassroom(
+        new And(
+          new CapacityOfAtLeast(new Persons(20)),
+          new Or(
+            new CountsWith(new Computers()),
+            new CountsWith(new Blackboard())
+          ),
+          new CapacityOfAtLeast(new SquareMeters(20))
+        )
+      )
+    );
+
+    expect(classroom.toJSON()).to.be.equal(labB.toJSON());
   });
 
 });
