@@ -1,13 +1,13 @@
 class CapacityOfAtLeast {
 
-    constructor(persons) {
-        this.persons = persons;
+    constructor(condition) {
+        this.condition = condition;
     }
 
     returnListOfMatchingClassrooms(classrooms) {
         return classrooms
             .map((classroom) => { 
-                return classroom.returnIfHasAtLeastAsManyPersons(this.persons); 
+                return this.condition.returnIfHasAtLeastAsMany(classroom);
             });
     }
 
