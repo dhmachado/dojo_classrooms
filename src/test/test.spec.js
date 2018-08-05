@@ -6,6 +6,7 @@ import NoClassroom from '../main/classrooms/NoClassroom';
 import Persons from '../main/classrooms/specs/Persons';
 import SquareMeters from '../main/classrooms/specs/SquareMeters';
 
+import And from '../main/conditions/And';
 import CapacityOfAtLeast from '../main/conditions/CapacityOfAtLeast';
 
 import Label from '../main/Label';
@@ -16,6 +17,7 @@ describe('Search for classroom', () => {
   
   var labA;
   var labB;
+  var labC;
   var pool;
 
   beforeEach(function() {
@@ -29,13 +31,20 @@ describe('Search for classroom', () => {
       new Persons(15),
       new SquareMeters(15)
     );
+    labC = new Classroom(
+      new Label("Lab C"),
+      new Persons(15),
+      new SquareMeters(50)
+    );
 
-    pool = new ClassroomsPool(labA, labB);
+    pool = new ClassroomsPool(labA, labB, labC);
   });
 
   afterEach(function() {
     labA = null;
     labB = null;
+    labC = null;
+
     pool = null;
   });
 
@@ -69,6 +78,19 @@ describe('Search for classroom', () => {
     );
 
     expect(classroom.toJSON()).to.be.equal(labB.toJSON());
+  });
+
+  it('for at least 10 persons and 30 square meters should return lab C', () => {
+    let classroom = pool.searchClassroomFor(
+      new RequestForClassroom(
+        new And(
+          new CapacityOfAtLeast(new Persons(10)),
+          new CapacityOfAtLeast(new SquareMeters(30))
+        )
+      )
+    );
+
+    expect(classroom.toJSON()).to.be.equal(labC.toJSON());
   });
 
 });
