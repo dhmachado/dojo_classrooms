@@ -2,8 +2,12 @@ import NoClassroom from './classrooms/NoClassroom';
 
 class ClassroomsPool {
 
-    searchClassroomFor() {
-        return new NoClassroom();
+    constructor(... classrooms) {
+        this.classrooms = [...classrooms];
+    }
+
+    searchClassroomFor(requestForClassroom) {
+        return requestForClassroom.searchMatchingFrom(this.classrooms);
     }
 
 }
