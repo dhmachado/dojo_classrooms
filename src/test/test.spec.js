@@ -4,9 +4,11 @@ import Classroom from '../main/classrooms/Classroom';
 import NoClassroom from '../main/classrooms/NoClassroom';
 
 import Persons from '../main/classrooms/specs/Persons';
+import Computers from '../main/classrooms/specs/Computers';
 import SquareMeters from '../main/classrooms/specs/SquareMeters';
 
 import And from '../main/conditions/And';
+import CountsWith from '../main/conditions/CountsWith';
 import CapacityOfAtLeast from '../main/conditions/CapacityOfAtLeast';
 
 import Label from '../main/Label';
@@ -18,6 +20,8 @@ describe('Search for classroom', () => {
   var labA;
   var labB;
   var labC;
+  var labD;
+
   var pool;
 
   beforeEach(function() {
@@ -36,14 +40,21 @@ describe('Search for classroom', () => {
       new Persons(15),
       new SquareMeters(50)
     );
+    labD = new Classroom(
+      new Label("Lab D"),
+      new Persons(15),
+      new SquareMeters(50),
+      new Computers()
+    );
 
-    pool = new ClassroomsPool(labA, labB, labC);
+    pool = new ClassroomsPool(labA, labB, labC, labD);
   });
 
   afterEach(function() {
     labA = null;
     labB = null;
     labC = null;
+    labD = null;
 
     pool = null;
   });
@@ -91,6 +102,20 @@ describe('Search for classroom', () => {
     );
 
     expect(classroom.toJSON()).to.be.equal(labC.toJSON());
+  });
+
+  it('for at least 10 persons and 30 square meters and has computers should return lab D', () => {
+    let classroom = pool.searchClassroomFor(
+      new RequestForClassroom(
+        new And(
+          new CapacityOfAtLeast(new Persons(10)),
+          new CapacityOfAtLeast(new SquareMeters(30)),
+          new CountsWith(new Computers())
+        )
+      )
+    );
+
+    expect(classroom.toJSON()).to.be.equal(labD.toJSON());
   });
 
 });
