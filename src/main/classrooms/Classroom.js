@@ -1,13 +1,15 @@
 import NoClassroom from './NoClassroom';
 import NoComputers from './specs/NoComputers';
+import NoBlackboard from './specs/NoBlackboard';
 
 class Classroom {
 
-    constructor(label, personsCapacity, squareMetersCapacity, computers = new NoComputers()) {
+    constructor(label, personsCapacity, squareMetersCapacity, computers = new NoComputers(), blackboard = new NoBlackboard()) {
         this.label = label;
         this.personsCapacity = personsCapacity;
         this.squareMetersCapacity = squareMetersCapacity;
         this.computers = computers;
+        this.blackboard = blackboard;
     }
 
     returnIfHasAtLeastAsManyPersons(personsToMatch) {
@@ -20,6 +22,10 @@ class Classroom {
 
     returnIfCountsWithComputers() {
         return this.computers.has(this, new NoClassroom());
+    }
+
+    returnIfCountsWithBlackboard() {
+        return this.blackboard.has(this, new NoClassroom());
     }
 
     challenge(challenger) {
