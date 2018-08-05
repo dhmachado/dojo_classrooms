@@ -8,8 +8,16 @@ class SquareMeters {
         return classroom.returnIfHasAtLeastAsManySquareMeters(this);
     }
 
+    returnIfHasLessThanAsMany(classroom) {
+        return classroom.returnIfHasLessThanAsManySquareMeters(this);
+    }
+
     gte(squareMetersToMatch, classroomIfGTE, classroomIfNotGTE) {
         return this.quantityOfSquareMeters >= squareMetersToMatch.quantityOfSquareMeters ? classroomIfGTE : classroomIfNotGTE;
+    }
+
+    lt(squareMetersToMatch, classroomIfGTE, classroomIfNotGTE) {
+        return this.quantityOfSquareMeters < squareMetersToMatch.quantityOfSquareMeters ? classroomIfGTE : classroomIfNotGTE;
     }
 
 }

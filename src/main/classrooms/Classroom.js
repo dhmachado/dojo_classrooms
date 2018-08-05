@@ -28,6 +28,10 @@ class Classroom {
         return this.blackboard.has(this, new NoClassroom());
     }
 
+    returnIfHasLessThanAsManySquareMeters(squareMetersToMatch) {
+        return this.squareMetersCapacity.lt(squareMetersToMatch, this, new NoClassroom());
+    }
+
     challenge(challenger) {
         return this;
     }
