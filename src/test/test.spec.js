@@ -13,15 +13,15 @@ import ClassroomsPool from '../main/ClassroomsPool';
 
 describe('Search for classroom', () => {
   
-  let labA;
-  let labB;
-  let pool;
+  var labA;
+  var labB;
+  var pool;
 
   beforeEach(function() {
     labA = new Classroom(new Label('Lab A'), new Persons(5));
     labB = new Classroom(new Label('Lab B'), new Persons(15));
 
-    pool = new ClassroomsPool(this.labA, this.labB);
+    pool = new ClassroomsPool(labA, labB);
   });
 
   afterEach(function() {
@@ -35,7 +35,15 @@ describe('Search for classroom', () => {
       new RequestForClassroom(new CapacityOfAtLeast(new Persons(30)))
     );
 
-    expect(classroom.toJSON()).to.be.deep.equal(new NoClassroom().toJSON());
+    expect(classroom.toJSON()).to.be.equal(new NoClassroom().toJSON());
+  });
+
+  it('for at least 5 persons should return Lab B', () => {
+    let classroom = pool.searchClassroomFor(
+      new RequestForClassroom(new CapacityOfAtLeast(new Persons(10)))
+    );
+
+    expect(classroom.toJSON()).to.be.equal(labB.toJSON());
   });
 
 });
