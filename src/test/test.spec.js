@@ -13,6 +13,7 @@ import Or from '../main/conditions/Or';
 import And from '../main/conditions/And';
 import CountsWith from '../main/conditions/CountsWith';
 import CapacityOfAtLeast from '../main/conditions/CapacityOfAtLeast';
+import CapacityOfLessThan from '../main/conditions/CapacityOfLessThan';
 
 import Label from '../main/Label';
 import ClassroomsPool from '../main/ClassroomsPool';
@@ -133,6 +134,23 @@ describe('Search for classroom', () => {
             new CountsWith(new Blackboard())
           ),
           new CapacityOfAtLeast(new SquareMeters(20))
+        )
+      )
+    );
+
+    expect(classroom.toJSON()).to.be.equal(labB.toJSON());
+  });
+
+  it('for at least 10 persons and less than 30 square meters and has computers or a blackboard should return lab B', () => {
+    let classroom = pool.searchClassroomFor(
+      new RequestForClassroom(
+        new And(
+          new CapacityOfAtLeast(new Persons(10)),
+          new Or(
+            new CountsWith(new Computers()),
+            new CountsWith(new Blackboard())
+          ),
+          new CapacityOfLessThan(new SquareMeters(30))
         )
       )
     );
