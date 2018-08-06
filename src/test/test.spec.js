@@ -78,7 +78,7 @@ describe('Search for classroom', () => {
       new RequestForClassroom(new CapacityOfAtLeast(new Persons(10)))
     );
 
-    expect(classroom.toJSON()).to.be.equal(labB.toJSON());
+    expect(classroom.toJSON()).to.be.equal(labA.toJSON());
   });
 
   it('with at least 4 square meters should return lab A', () => {
